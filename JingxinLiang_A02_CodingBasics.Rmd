@@ -100,7 +100,7 @@ greater_than5_1(52.5)
 
 greater_than5_2 <- function(number) {
   ifelse(number > 50, "Pass", "Fail")}
-greater_than5_2(52.5)
+greater_than5_2(52.5)  
 
 12. Run both functions using the value 52.5 as the input
 
