@@ -41,11 +41,18 @@ Median < Ave_seq
 4.  Insert comments in your code to describe what you are doing.
 
 ```{r basics 1}
-#1. Sequen1to55 <- seq(from 1 to 55,  increase by5)
+#1. Create a sequence of numbers from 1 to 55, increasing by 5
+Sequen_1to55 <- seq(from=1, to=55,  by=5)
 
-#2. median, mean
+#2. Calculate the mean and median of the sequence
+Ave_seq <- mean(Sequen_1to55)
+Ave_seq
 
-#3. if median < mean
+Median <- median(Sequen_1to55)
+Median
+
+#3.Compare whether the median is less than the mean (returns TRUE or FALSE)
+Median < Ave_seq
 
 ```
 
@@ -76,7 +83,21 @@ student_data <- data.frame(Name=students, Scores=scores, Scholarship=scholarship
 student_data
 
 ```{r basics 2}
+#(a) student names, character vector
+students <- c("Michelle", "Isabella", "Bella", "Molly")
 
+# (b) test scores, numeric vector
+scores <- c(85, 92, 88, 76)
+
+# (c) scholarship status, logical vector
+scholarship<- c(FALSE, TRUE, TRUE, FALSE)
+scholarship
+
+student_data <- data.frame(students, scores, scholarship)
+student_data
+
+student_data <- data.frame(Name=students, Scores=scores, Scholarship=scholarship)
+student_data
 
 ```
 
@@ -142,16 +163,29 @@ greater_than5_2 <- function(number) {
 greater_than5_2(52.5)
 
 #12a. Run the first function with the value 52.5
-
+greater_than5_1(52.5) 
 #12b. Run the second function with the value 52.5
-
+greater_than5_2(52.5) 
 #13a. Run the first function with the vector of test scores
+#greater_than5_1 <- function(number) {
+#  if ( number > 50) {
+#    print("Pass")}
+# else {
+#    print("Fail")}}
+  
+
+#greater_than5_1(scores)
+
 
 #13b. Run the second function with the vector of test scores
+greater_than5_2 <- function(number) {
+  ifelse(number > 50, "Pass", "Fail")
+}
+greater_than5_2(scores)
 ```
 
 14. QUESTION: Which option of `if`...`else` vs. `ifelse` worked? Why? (Hint: search the web for "R vectorization")
-
+ 
 > Answer: The ifelse worked, since  "if..else" can only have one condition.
 
 
