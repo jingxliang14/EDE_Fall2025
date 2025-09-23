@@ -92,7 +92,6 @@ species_freq <- summary(Neonics$Species.Common.Name, maxsum = 7)
 species_freq
 
 unique(Neonics$Species.Common.Name)
-
 table(Neonics$Species.Common.Name)
 
 top6_species <- head(sort(table(Neonics$Species.Common.Name), decreasing = TRUE), 6)
