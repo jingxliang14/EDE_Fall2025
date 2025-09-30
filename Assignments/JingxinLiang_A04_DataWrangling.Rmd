@@ -199,7 +199,7 @@ EPA_daily <- EPA_all %>%
   select(Date, Month, Year, Site.Name, AQS_PARAMETER_DESC, COUNTY,
          DAILY_AQI_VALUE, SITE_LATITUDE, SITE_LONGITUDE)
 
-dim(EPA_daily)  # ✅ 14752 x 9
+dim(EPA_daily)
 
 
 #9
