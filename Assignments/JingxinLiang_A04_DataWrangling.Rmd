@@ -210,9 +210,6 @@ EPA_divide <- EPA_daily %>%
     values_from = DAILY_AQI_VALUE       
   )
 
-# Check the result
-
-
 
 #10
 dim(EPA_divide)
