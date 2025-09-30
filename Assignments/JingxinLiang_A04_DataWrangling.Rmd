@@ -72,6 +72,7 @@ head(EPA.pm25.2019)
 #EPA.pm25.2018$Date <- as.Date(EPA.pm25.2018$Date, format = "%m/%d/%y")
 #EPA.O3.2019$Date <- as.Date(EPA.O3.2019$Date, format ="%m/%d/%y")
 #EPA.O3.2018$Date <- as.Date(EPA.O3.2018$Date, format ="%m/%d/%y")
+#not working
 
 #EPA.pm25.2019$Date <- parse_date_time(EPA.pm25.2019$Date,
                                       orders = c("mdy", "ymd", "dmy"))
