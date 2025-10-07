@@ -112,12 +112,12 @@ For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best pract
 ```{r plot total P vs PO4}
 #4 
 
-#4: Total P vs PO4 (fixed aes syntax; remove extra comma)
+#Total P vs PO4 (fixed aes syntax; remove extra comma)
 pp_plot_df <- PeterPaul.chem.nutrients %>%
   filter(lakename %in% c("Peter Lake", "Paul Lake")) %>%
   drop_na(tp_ug, po4)
 
-# quick checks
+#  checks
 nrow(pp_plot_df)
 table(pp_plot_df$lakename)
 
@@ -176,27 +176,29 @@ small_theme <- theme_minimal(base_size = 12) +
     axis.title.x = element_blank()
   )
 
-# Temperature plot
+# 1. Temperature plot
 p_temp <- ggplot(pp, aes(x = month, y = temperature_C, color = lake)) +
   geom_boxplot(outlier.size = 1, alpha = 0.6) +
   labs(y = "Temperature (°C)", title = "(a) Temperature") +
   scale_color_brewer(palette = "Set1", name = "Lake") +
   small_theme
 
-# Total Phosphorus plot
+# 2. Total Phosphorus plot
 p_tp <- ggplot(pp, aes(x = month, y = tp_ug, color = lake)) +
   geom_boxplot(outlier.size = 1, alpha = 0.6) +
-  labs(y = expression(paste("TP (", mu, "g/L)")), title = "(b) Total Phosphorus") +
+  labs(y = expression(paste("TP (", mu, "g/L)")), 
+       title = "(b) Total Phosphorus") +
   scale_color_brewer(palette = "Set1", name = "Lake") +
-  small_theme + theme(axis.title.y = element_blank())
+  small_theme
 
+# 3. Total Nitrogen plot 
 
-# Total Nitrogen plot
 p_tn <- ggplot(pp, aes(x = month, y = tn_ug, color = lake)) +
   geom_boxplot(outlier.size = 1, alpha = 0.6) +
-  labs(y = expression(paste("TN (", mu, "g/L)")), title = "(c) Total Nitrogen") +
+  labs(y = expression(paste("TN (", mu, "g/L)")), 
+       title = "(c) Total Nitrogen") +
   scale_color_brewer(palette = "Set1", name = "Lake") +
-  small_theme + theme(axis.title.y = element_blank())
+  small_theme
 
 legend <- cowplot::get_legend(p_temp + theme(legend.position = "right"))
 
@@ -216,7 +218,7 @@ print(final_plot)
 
 Question: What do you observe about the variables of interest over seasons and between lakes? 
 
-> Answer: 
+> Answer: I observed that temperature strongly reflects seasonal changes, while nutrient concentrations (TP and TN) show greater variability between lakes. Peter Lake tends to have higher nutrient levels than Paul Lake, particularly for nitrogen, indicating differing nutrient dynamics or watershed characteristics between the two systems.
 
 6. [Niwot Ridge] Plot a subset of the litter dataset by displaying only the "Needles" functional group. Plot the dry mass of needle litter by date and separate by NLCD class with a color aesthetic. (no need to adjust the name of each land use)
 
@@ -224,12 +226,65 @@ Question: What do you observe about the variables of interest over seasons and b
 
 ```{r Plot litter}
 #6
+# ensure collectDate is Date (safe conversion)
+NIWO_Litter_mass <- NIWO_Litter_mass %>%
+  mutate(
+    collectDate = as.character(collectDate),
+    collectDate = lubridate::parse_date_time(collectDate, orders = c("ymd","mdy","dmy")),
+    collectDate = as.Date(collectDate)
+  )
 
+# inspect functional groups (optional)
+unique(NIWO_Litter_mass$functionalGroup)
+needles <- NIWO_Litter_mass %>%
+  filter(!is.na(collectDate) & !is.na(dryMass)) %>%
+  filter(str_to_lower(functionalGroup) == "needles")
+
+# quick check: NLCD classes present
+unique(needles$nlcdClass)
+p_needles_color <- ggplot(needles, aes(x = collectDate, y = dryMass, color = nlcdClass)) +
+  geom_point(alpha = 0.5, size = 2) +
+  geom_smooth(aes(group = nlcdClass), method = "loess", se = FALSE, linetype = "solid", size = 0.6) +
+  scale_color_brewer(palette = "Set2", name = "NLCD class") +
+  labs(
+    title = "Needle litter dry mass through time",
+    x = "Date (month)",
+    y = "Dry mass (g)"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.position = "right"
+  )
+ 
+print(p_needles_color)
 
 #7
+
+p_needles_facets <- ggplot(needles, aes(x = collectDate, y = dryMass, color = nlcdClass)) +
+  geom_point(alpha = 0.6, size = 1.6) +
+  geom_smooth(method = "loess", se = FALSE, size = 0.7) +
+  facet_wrap(~ nlcdClass, ncol = 3, scales = "free_y") +
+  scale_color_brewer(palette = "Set2", name = "NLCD class") +
+  scale_x_date(date_labels = "%Y-%m", date_breaks = "6 months",
+               expand = expansion(mult = c(0.01, 0.01))) +
+  labs(
+    title = "Needle litter dry mass by NLCD class (faceted, colored by class)",
+    x = "Date",
+    y = "Dry mass (g)"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    strip.text = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 25, hjust = 1),
+    legend.position = "none"   # hide redundant legend if desired
+  )
+
+print(p_needles_facets)
 
 
 ```
 Question: Which of these plots (6 vs. 7) do you think is more effective, and why? 
 
-> Answer:
+> Answer: Between the two plots, the faceted plot (Plot 7) is more effective in presenting the data. By separating each NLCD class into its own panel, it avoids the overlap of points and trend lines that makes the combined plot (Plot 6) harder to interpret. This layout allows for clearer visualization of the temporal patterns within each land cover type and makes it easier to compare differences in dry mass trends across classes. The consistent axes across panels also support direct visual comparison. In contrast, the combined plot is more cluttered and better suited only for showing overall patterns rather than detailed class-specific trends.
