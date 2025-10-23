@@ -38,17 +38,21 @@ library(here)
 #1b 
 getwd()
 #1c ~
-EPA.pm25.2019 <- read.csv("/home/guest/EDE_Fall2025/Data/Raw/EPAair_PM25_NC2019_raw.csv", stringsAsFactors = TRUE)
-EPA.pm25.2018 <- read.csv("/home/guest/EDE_Fall2025/Data/Raw/EPAair_PM25_NC2018_raw.csv", stringsAsFactors = TRUE)
-EPA.O3.2019 <- read.csv("/home/guest/EDE_Fall2025/Data/Raw/EPAair_O3_NC2019_raw.csv", stringsAsFactors = TRUE)
-EPA.O3.2018 <- read.csv("/home/guest/EDE_Fall2025/Data/Raw/EPAair_O3_NC2018_raw.csv", stringsAsFactors = TRUE)
+EPA.pm25.2019 <- read.csv("/home/guest/EDE_Fall2025/Data/Raw/EPAair_PM25_NC2019_raw.csv",
+                          stringsAsFactors = TRUE)
+EPA.pm25.2018 <- read.csv("/home/guest/EDE_Fall2025/Data/Raw/EPAair_PM25_NC2018_raw.csv",
+                          stringsAsFactors = TRUE)
+EPA.O3.2019 <- read.csv("/home/guest/EDE_Fall2025/Data/Raw/EPAair_O3_NC2019_raw.csv", 
+                        stringsAsFactors = TRUE)
+EPA.O3.2018 <- read.csv("/home/guest/EDE_Fall2025/Data/Raw/EPAair_O3_NC2018_raw.csv", 
+                        stringsAsFactors = TRUE)
 
+
+#2 
 dim(EPA.pm25.2019)
 dim(EPA.pm25.2018)
 dim(EPA.O3.2019)
 dim(EPA.O3.2018)
-#2 
-
 
 ```
 
@@ -68,20 +72,21 @@ Yes, my datasets follow this pattern.
 ```{r questions 3 thru 4}
 #3
 head(EPA.pm25.2019)
-#EPA.pm25.2019$Date <- as.Date(EPA.pm25.2019$Date, format = "%m/%d/%y")
+#EPA.pm25.2019$Date <- as.Date(EPA.pm25.2019$Date, format = "%Y-%m-%d")
+lubridate
 #EPA.pm25.2018$Date <- as.Date(EPA.pm25.2018$Date, format = "%m/%d/%y")
 #EPA.O3.2019$Date <- as.Date(EPA.O3.2019$Date, format ="%m/%d/%y")
 #EPA.O3.2018$Date <- as.Date(EPA.O3.2018$Date, format ="%m/%d/%y")
 #not working
 
 #EPA.pm25.2019$Date <- parse_date_time(EPA.pm25.2019$Date,
-                                      orders = c("mdy", "ymd", "dmy"))
+#                                      orders = c("mdy", "ymd", "dmy"))
 #EPA.pm25.2018$Date <- parse_date_time(EPA.pm25.2018$Date,
-                                      orders = c("mdy", "ymd", "dmy"))
+#                                      orders = c("mdy", "ymd", "dmy"))
 #EPA.O3.2019$Date <- parse_date_time(EPA.O3.2019$Date,
-                                      orders = c("mdy", "ymd", "dmy"))
+#                                      orders = c("mdy", "ymd", "dmy"))
 #EPA.O3.2018$Date <- parse_date_time(EPA.O3.2018$Date,
-                                      orders = c("mdy", "ymd", "dmy"))
+#                                      orders = c("mdy", "ymd", "dmy"))
 
 EPA.O3.2018$Date <- as.Date(parse_date_time(EPA.O3.2018$Date,
                                             orders = c("mdy", "ymd", "dmy")))
@@ -235,13 +240,13 @@ write.csv(EPA_divide,
 #12
 
 EPA_summary <- EPA_divide %>%
-  group_by(Site.Name, Month, Year) %>%              # split by site + time
+  group_by(Site.Name, Month, Year) %>%              
   summarise(
-    mean_Ozone = mean(Ozone, na.rm = TRUE),         # average Ozone AQI
-    mean_PM25  = mean(`PM2.5`, na.rm = TRUE),       # average PM2.5 AQI
+    mean_Ozone = mean(Ozone, na.rm = TRUE),         
+    mean_PM25  = mean(`PM2.5`, na.rm = TRUE),       
     .groups = "drop"
   ) %>%
-  drop_na(mean_Ozone)   # remove rows where ozone mean is missing
+  drop_na(mean_Ozone)   
 
 
 
