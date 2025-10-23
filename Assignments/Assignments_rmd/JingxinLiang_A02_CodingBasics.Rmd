@@ -1,0 +1,192 @@
+---
+title: "Assignment 2: Coding Basics"
+author: Jingxin Liang
+output: pdf_document
+geometry: margin=2.54cm
+editor_options: 
+  chunk_output_type: console
+---
+
+## OVERVIEW
+
+This exercise accompanies the lessons/labs in Environmental Data Analytics on coding basics.
+
+## Directions
+
+1.  Rename this file `<FirstLast>_A02_CodingBasics.Rmd` (replacing `<FirstLast>` with your first and last name).
+2.  Change "Student Name" on line 3 (above) with your name.
+3.  Work through the steps, **creating code and output** that fulfill each instruction.
+4.  Be sure to **answer the questions** in this assignment document.
+5.  When you have completed the assignment, **Knit** the text and code into a single PDF file.
+6.  After Knitting, submit the completed exercise (PDF file) to Canvas.
+
+## Basics, Part 1
+
+1.  Generate a sequence of numbers from one to 55, increasing by fives. Assign this sequence a name.
+
+Sequen_1to55 <- seq(from=1, to=55,  by=5)
+
+2.  Compute the mean and median of this sequence.
+
+Ave_seq <- mean(Sequen_1to55)
+Ave_seq
+
+Median <- median(Sequen_1to55)
+Median
+
+3.  Ask R to determine whether the mean is greater than the median.
+
+Median < Ave_seq
+
+4.  Insert comments in your code to describe what you are doing.
+
+```{r basics 1}
+#1. Create a sequence of numbers from 1 to 55, increasing by 5
+Sequen_1to55 <- seq(from=1, to=55,  by=5)
+
+#2. Calculate the mean and median of the sequence
+Ave_seq <- mean(Sequen_1to55)
+Ave_seq
+
+Median <- median(Sequen_1to55)
+Median
+
+#3.Compare whether the median is less than the mean (returns TRUE or FALSE)
+Median < Ave_seq
+
+```
+
+## Basics, Part 2
+
+5.  Create three vectors, each with four components, consisting of (a) student names, (b) test scores, and (c) whether they are on scholarship or not (TRUE or FALSE).
+
+#(a) student names, character vector
+students <- c("Michelle", "Isabella", "Bella", "Molly")
+
+# (b) test scores, numeric vector
+scores <- c(85, 92, 88, 76)
+
+# (c) scholarship status, logical vector
+scholarship<- c(FALSE, TRUE, TRUE, FALSE)
+scholarship
+
+6.  Label each vector with a comment on what type of vector it is.
+
+7.  Combine each of the vectors into a data frame. Assign the data frame an informative name.
+
+student_data <- data.frame(students, scores, scholarship)
+student_data
+
+8.  Label the columns of your data frame with informative titles.
+
+student_data <- data.frame(Name=students, Scores=scores, Scholarship=scholarship)
+student_data
+
+```{r basics 2}
+#(a) student names, character vector
+students <- c("Michelle", "Isabella", "Bella", "Molly")
+
+# (b) test scores, numeric vector
+scores <- c(85, 92, 88, 76)
+
+# (c) scholarship status, logical vector
+scholarship<- c(FALSE, TRUE, TRUE, FALSE)
+scholarship
+
+student_data <- data.frame(students, scores, scholarship)
+student_data
+
+student_data <- data.frame(Name=students, Scores=scores, Scholarship=scholarship)
+student_data
+
+```
+
+9.  QUESTION: How is this data frame different from a matrix?
+
+> Answer: Matrix can only have one data type while data frame can have multiple different data types.
+
+10. Create a function with one input. In this function, use `if`...`else` to evaluate the value of the input: if it is greater than 50, print the word "Pass"; otherwise print the word "Fail". 
+
+greater_than5_1 <- function(number) {
+  if ( number > 50) {
+    print("Pass")}
+ else {
+    print("Fail")
+  }
+}
+greater_than5_1(52.5)
+
+
+11. Create a second function that does the exact same thing as the previous one but uses `ifelse()` instead if `if`...`else `. 
+
+greater_than5_2 <- function(number) {
+  ifelse(number > 50, "Pass", "Fail")}
+greater_than5_2(52.5)  
+
+12. Run both functions using the value 52.5 as the input
+
+13. Run both functions using the **vector** of student test scores you created as the input. (Only one will work properly...)
+
+#greater_than5_1 <- function(number) {
+#  if ( number > 50) {
+#    print("Pass")}
+# else {
+#    print("Fail")}}
+  
+
+#greater_than5_1(scores)
+
+greater_than5_2 <- function(number) {
+  ifelse(number > 50, "Pass", "Fail")
+}
+greater_than5_2(scores)
+
+
+```{r basics 3}
+#10. Create a function using if...else
+
+greater_than5_1 <- function(number) {
+  if ( number > 50) {
+    print("Pass")}
+ else {
+    print("Fail")
+  }
+}
+greater_than5_1(52.5)
+
+
+#11. Create a function using ifelse()
+
+greater_than5_2 <- function(number) {
+  ifelse(number > 50, "Pass", "Fail")}
+
+greater_than5_2(52.5)
+
+#12a. Run the first function with the value 52.5
+greater_than5_1(52.5) 
+#12b. Run the second function with the value 52.5
+greater_than5_2(52.5) 
+#13a. Run the first function with the vector of test scores
+#greater_than5_1 <- function(number) {
+#  if ( number > 50) {
+#    print("Pass")}
+# else {
+#    print("Fail")}}
+  
+
+#greater_than5_1(scores)
+
+
+#13b. Run the second function with the vector of test scores
+greater_than5_2 <- function(number) {
+  ifelse(number > 50, "Pass", "Fail")
+}
+greater_than5_2(scores)
+```
+
+14. QUESTION: Which option of `if`...`else` vs. `ifelse` worked? Why? (Hint: search the web for "R vectorization")
+ 
+> Answer: The ifelse worked, since  "if..else" can only have one condition.
+
+
+**NOTE** Before knitting, you'll need to comment out the call to the function in Q13 that does not work. (A document can't knit if the code it contains causes an error!)
