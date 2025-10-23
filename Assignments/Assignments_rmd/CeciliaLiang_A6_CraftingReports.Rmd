@@ -12,9 +12,6 @@ lof: TRUE
 1.  More practice with R code chunk options
 2.  Gain proficiency with figures, tables (w/`Kable`) table of contents, etc.
 3.  Debugging knitting issues
-1.  More practice with R code chunk options
-2.  Gain proficiency with figures, tables (w/`Kable`) table of contents, etc.
-3.  Debugging knitting issues
 
 ## Directions
 
